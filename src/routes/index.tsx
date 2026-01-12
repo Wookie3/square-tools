@@ -35,7 +35,7 @@ function Dashboard() {
                   Sign Printer
                 </p>
                 <p className="text-orange-100 text-sm font-medium">
-                  Create retro-style BOH inventory signage
+                  Create BOH signage for "Shelf Talkers"
                 </p>
               </div>
             </div>
@@ -60,7 +60,7 @@ function Dashboard() {
                   Square Scan
                 </p>
                 <p className="text-orange-100 text-sm font-medium">
-                  Mobile inventory scanner & price checker
+                  Product Scanner
                 </p>
               </div>
             </div>
@@ -85,7 +85,7 @@ function Dashboard() {
                   Transfer Tracker
                 </p>
                 <p className="text-orange-100 text-sm font-medium">
-                  Track inbound shipments & transfers
+                  Track outbound transfers
                 </p>
               </div>
             </div>

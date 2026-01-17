@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const upcSchema = z
   .string()
-  .regex(/^[0-9]{12,13}$/, 'UPC must be 12-13 digit numeric string')
+  .regex(/^[0-9]{11,13}$/, 'UPC must be 11-13 digit numeric string')
   .transform(val => val.padStart(13, '0'))
 
 export const skuSchema = z

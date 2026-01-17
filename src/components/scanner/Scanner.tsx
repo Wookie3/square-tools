@@ -3,7 +3,7 @@ import { Html5Qrcode } from 'html5-qrcode'
 import { useNavigate } from '@tanstack/react-router'
 import { AlertCircle } from 'lucide-react'
 
-const UPC_REGEX = /^[0-9]{12,13}$/
+const UPC_REGEX = /^[0-9]{11,13}$/
 
 export function Scanner() {
   const navigate = useNavigate()
@@ -27,9 +27,9 @@ export function Scanner() {
           (decodedText) => {
             setError(null)
 
-            // Validate UPC format (12-13 digit numeric)
+            // Validate UPC format (11-13 digit numeric)
             if (!UPC_REGEX.test(decodedText)) {
-              setError(`Invalid barcode format: ${decodedText} (must be 12-13 digits)`)
+              setError(`Invalid barcode format: ${decodedText} (must be 11-13 digits)`)
               if (typeof navigator !== 'undefined' && navigator.vibrate) {
                 navigator.vibrate([100, 50, 100])
               }

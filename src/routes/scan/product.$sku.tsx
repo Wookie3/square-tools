@@ -62,8 +62,8 @@ const getWarehouseDataBySKU = createServerFn({
 
 export const Route = createFileRoute('/scan/product/$sku')({
   loader: async ({ params: { sku } }) => {
-    // Determine if input is UPC (12-13 digits) or SKU
-    const isUPC = /^[0-9]{12,13}$/.test(sku)
+    // Determine if input is UPC (11-13 digits) or SKU
+    const isUPC = /^[0-9]{11,13}$/.test(sku)
 
     let warehouse = null
     let skuForLink = sku

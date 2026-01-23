@@ -191,6 +191,21 @@ function ProductView() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4">
+                <div>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Style Number</label>
+                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse['Style Number'] || 'N/A'}</p>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU</label>
+                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse.SKU || 'N/A'}</p>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">UPC</label>
+                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse.UPC ? String(warehouse.UPC) : 'N/A'}</p>
+                </div>
+              </div>
+
               <div className="pt-6 mt-4 border-t border-slate-100">
                 <a
                   href={marksSearchUrl}

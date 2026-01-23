@@ -164,11 +164,10 @@ function ProductView() {
 
               <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-6">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Status</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Inventory Status</label>
                   <p className={`text-lg font-black mt-1 ${warehouse['SKU Status'] === 'Active' ? 'text-green-600' : 'text-amber-500'}`}>
                     {warehouse['SKU Status']}
                   </p>
-                  <p className="text-[10px] text-slate-400 uppercase font-bold mt-1">Inventory Status</p>
                 </div>
                 <div className="text-right">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Category</label>
@@ -191,18 +190,19 @@ function ProductView() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4">
+              <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
                 <div>
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Style Number</label>
                   <p className="text-sm font-mono font-bold text-slate-700">{warehouse['Style Number'] || 'N/A'}</p>
                 </div>
-                <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU</label>
-                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse.SKU || 'N/A'}</p>
-                </div>
-                <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">UPC</label>
-                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse.UPC ? String(warehouse.UPC) : 'N/A'}</p>
+                <div className="text-right">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU / UPC</label>
+                  <p className="text-sm font-mono font-bold text-slate-700">
+                    {warehouse.UPC
+                      ? (String(warehouse.UPC) === String(warehouse.SKU) ? '(USE SKU)' : String(warehouse.UPC))
+                      : (warehouse.SKU || 'N/A')
+                    }
+                  </p>
                 </div>
               </div>
 

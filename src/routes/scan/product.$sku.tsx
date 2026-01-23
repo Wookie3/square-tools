@@ -190,16 +190,16 @@ function ProductView() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4">
-                <div>
+              <div className="flex gap-4 border-t border-slate-100 pt-4">
+                <div className="flex-1">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Style Number</label>
                   <p className="text-sm font-mono font-bold text-slate-700">{warehouse['Style Number'] || 'N/A'}</p>
                 </div>
-                <div>
+                <div className="flex-1 text-center">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU</label>
                   <p className="text-sm font-mono font-bold text-slate-700">{warehouse.SKU || 'N/A'}</p>
                 </div>
-                <div>
+                <div className="flex-1 text-right">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">UPC</label>
                   <p className="text-sm font-mono font-bold text-slate-700">
                     {warehouse.UPC

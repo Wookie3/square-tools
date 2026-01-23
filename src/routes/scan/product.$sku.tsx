@@ -190,17 +190,21 @@ function ProductView() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+              <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4">
                 <div>
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Style Number</label>
                   <p className="text-sm font-mono font-bold text-slate-700">{warehouse['Style Number'] || 'N/A'}</p>
                 </div>
-                <div className="text-right">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU / UPC</label>
+                <div>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU</label>
+                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse.SKU || 'N/A'}</p>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">UPC</label>
                   <p className="text-sm font-mono font-bold text-slate-700">
                     {warehouse.UPC
                       ? (String(warehouse.UPC) === String(warehouse.SKU) ? '(USE SKU)' : String(warehouse.UPC))
-                      : (warehouse.SKU || 'N/A')
+                      : 'N/A'
                     }
                   </p>
                 </div>

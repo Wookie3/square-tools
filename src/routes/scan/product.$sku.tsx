@@ -111,6 +111,15 @@ export const Route = createFileRoute('/scan/product/$sku')({
   component: ProductView
 })
 
+/**
+ * Render the product details view for a scanned SKU, showing either warehouse inventory details or an "Item Not Found" screen.
+ *
+ * Reads loader data (warehouse, sku, inputSku, searchType) and:
+ * - If `warehouse` is present, displays inventory metadata, conditional colour/size fields based on `searchType`, SKU/UPC display, and a link to search the SKU on marks.com.
+ * - If `warehouse` is absent, displays a not-found card with a marks.com search link and a back-to-scanner action.
+ *
+ * @returns The rendered React element for the product details route.
+ */
 function ProductView() {
   const { warehouse, sku, inputSku, searchType } = Route.useLoaderData()
 

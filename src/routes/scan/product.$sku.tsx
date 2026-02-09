@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin as supabase } from '@/lib/supabase-server'
 import { upcSchema } from '@/lib/validation'
 import { Package, MapPin, ExternalLink, Search, ArrowLeft, RefreshCw } from 'lucide-react'
 import { z } from 'zod'

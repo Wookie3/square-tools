@@ -34,7 +34,7 @@ function Signup() {
             } else {
                 setSuccess(true)
                 setTimeout(() => {
-                    router.navigate({ to: '/login' })
+                    router.navigate({ to: '/login', search: { redirect: '/signup' } })
                 }, 2000)
             }
         } catch (err) {
@@ -95,7 +95,7 @@ function Signup() {
 
                             <div className="text-center mt-4">
                                 <span className="text-[var(--ink-black)]/60 font-mono text-sm">Already have an account? </span>
-                                <Link to="/login" className="text-[var(--sign-red)] font-bold hover:underline decoration-2">
+                                <Link to="/login" search={{ redirect: '/signup' }} className="text-[var(--sign-red)] font-bold hover:underline decoration-2">
                                     SIGN IN
                                 </Link>
                             </div>

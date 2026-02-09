@@ -2,9 +2,20 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getShipmentStatus } from '../lib/purolator'
 import { supabaseAdmin as supabase } from '../lib/supabase-server'
+import { z } from 'zod'
+
+const userIdSchema = z.string().uuid('Invalid user ID format')
+const shipmentDataSchema = z.object({
+  pin: z.string().regex(/^\d{12,15}$/, 'Invalid PIN format (must be 12-15 digits)'),
+  userId: z.string().uuid('Invalid user ID format')
+})
+const refreshShipmentSchema = z.object({
+  id: z.string().uuid('Invalid shipment ID format'),
+  userId: z.string().uuid('Invalid user ID format')
+})
 
 export const getTrackedShipments = createServerFn({ method: "GET" })
-  .inputValidator((userId: string) => userId)
+  .inputValidator((userId: unknown) => userIdSchema.parse(userId))
   .handler(async ({ data: userId }: { data: string }) => {
     const { data, error } = await supabase
       .from('user_shipments')
@@ -17,7 +28,7 @@ export const getTrackedShipments = createServerFn({ method: "GET" })
   })
 
 export const addShipment = createServerFn({ method: "POST" })
-  .inputValidator((data: { pin: string; userId: string }) => data)
+  .inputValidator((data: unknown) => shipmentDataSchema.parse(data))
   .handler(async ({ data }: { data: { pin: string; userId: string } }) => {
     const { pin, userId } = data
 
@@ -63,7 +74,7 @@ export const addShipment = createServerFn({ method: "POST" })
   })
 
 export const refreshShipment = createServerFn({ method: "POST" })
-  .inputValidator((data: { id: string; userId: string }) => data)
+  .inputValidator((data: unknown) => refreshShipmentSchema.parse(data))
   .handler(async ({ data }: { data: { id: string; userId: string } }) => {
     const { id, userId } = data
 

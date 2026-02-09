@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin as supabase } from '@/lib/supabase-server'
 import { InventoryItem } from '@/types/inventory.types'
 import SKUSearch from '@/components/sign-maker/SKUSearch'
 import LabelPreview from '@/components/sign-maker/LabelPreview'
@@ -9,12 +9,29 @@ import Header from '@/components/sign-maker/Header'
 
 export const Route = createFileRoute('/sign-maker/')({
   beforeLoad: async () => {
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+
+    if (sessionError || !session) {
       throw redirect({
         to: '/login',
+        search: {
+          redirect: '/sign-maker'
+        }
       })
     }
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+    if (userError || !user) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: '/sign-maker'
+        }
+      })
+    }
+
+    return { userId: session.user.id, email: user.email }
   },
   component: App,
 })

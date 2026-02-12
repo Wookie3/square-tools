@@ -9,12 +9,29 @@ import Header from '@/components/sign-maker/Header'
 
 export const Route = createFileRoute('/sign-maker/')({
   beforeLoad: async () => {
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+
+    if (sessionError || !session) {
       throw redirect({
         to: '/login',
+        search: {
+          redirect: '/sign-maker'
+        }
       })
     }
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+    if (userError || !user) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: '/sign-maker'
+        }
+      })
+    }
+
+    return { userId: session.user.id, email: user.email }
   },
   component: App,
 })

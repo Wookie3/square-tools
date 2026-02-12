@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { supabase } from '@/lib/supabase'
-import { upcSchema, skuSchema } from '@/lib/validation'
+import { upcSchema } from '@/lib/validation'
 import { Package, MapPin, ExternalLink, Search, ArrowLeft, RefreshCw } from 'lucide-react'
 import { z } from 'zod'
 
@@ -11,6 +10,7 @@ const getWarehouseDataByUPC = createServerFn({
 })
   .inputValidator((data: unknown) => z.object({ upc: z.coerce.string() }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin: supabase } = await import('@/lib/supabase-server')
     const input = data
     try {
       const validatedUpc = upcSchema.parse(input.upc)
@@ -33,6 +33,8 @@ const getWarehouseDataByUPC = createServerFn({
   })
 
 // Server function to fetch internal warehouse data by SKU (for manual entry)
+// Commented out - now using direct queries in loader to avoid bigint type mismatch
+/*
 const getWarehouseDataBySKU = createServerFn({
   method: 'GET',
 })
@@ -59,14 +61,18 @@ const getWarehouseDataBySKU = createServerFn({
       return null
     }
   })
+*/
+
 
 export const Route = createFileRoute('/scan/product/$sku')({
   loader: async ({ params: { sku } }) => {
-    // Determine if input is UPC (11-13 digits) or SKU
+    const { supabaseAdmin: supabase } = await import('@/lib/supabase-server')
     const isUPC = /^[0-9]{11,13}$/.test(sku)
+    const isStyleNumber = /[a-zA-Z]/.test(sku) // Contains letters
 
     let warehouse = null
     let skuForLink = sku
+    let searchType = 'unknown'
 
     if (isUPC) {
       // Input is UPC - look up in database and extract SKU
@@ -74,18 +80,40 @@ export const Route = createFileRoute('/scan/product/$sku')({
       if (warehouse?.SKU) {
         skuForLink = warehouse.SKU
       }
+      searchType = 'upc'
+    } else if (isStyleNumber) {
+      // Input is Style Number (alphanumeric) - use RPC to handle space in column name
+      const { data: dbData, error } = await supabase
+        .rpc('get_by_style_number', { style_number: sku })
+        .single()
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Supabase error:', error.message)
+      }
+      warehouse = dbData
+      searchType = 'styleNumber'
     } else {
-      // Input is SKU - look up by SKU
-      warehouse = await getWarehouseDataBySKU({ data: { sku } })
+      // Input is SKU (numeric only) - query ONLY SKU column
+      const { data: dbData, error } = await supabase
+        .from('Inventory')
+        .select('*')
+        .eq('SKU', sku)
+        .single()
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Supabase error:', error.message)
+      }
+      warehouse = dbData
+      searchType = 'sku'
     }
 
-    return { warehouse, sku: skuForLink, inputSku: sku }
+    return { warehouse, sku: skuForLink, inputSku: sku, searchType }
   },
   component: ProductView
 })
 
 function ProductView() {
-  const { warehouse, sku, inputSku } = Route.useLoaderData()
+  const { warehouse, sku, inputSku, searchType } = Route.useLoaderData()
 
   // Use the search URL format
   const marksSearchUrl = `https://www.marks.com/en/search.html?q=${encodeURIComponent(sku)}`
@@ -162,6 +190,11 @@ function ProductView() {
                 <p className="text-xl font-bold text-slate-800 leading-tight mt-1">{warehouse.Style}</p>
               </div>
 
+              <div>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Style Number</label>
+                <p className="text-lg font-mono font-bold text-slate-700 mt-1">{warehouse['Style Number'] || 'N/A'}</p>
+              </div>
+
               <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-6">
                 <div>
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Inventory Status</label>
@@ -179,27 +212,25 @@ function ProductView() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
-                <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Colour</label>
-                  <p className="text-sm font-bold text-slate-700">{warehouse.Colour}</p>
+              {searchType !== 'styleNumber' && (
+                <div className="grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
+                  <div>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Colour</label>
+                    <p className="text-sm font-bold text-slate-700">{warehouse.Colour}</p>
+                  </div>
+                  <div className="text-right">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Size</label>
+                    <p className="text-sm font-bold text-slate-700">{warehouse.Size} {warehouse['Size 2'] ? `/ ${warehouse['Size 2']}` : ''}</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Size</label>
-                  <p className="text-sm font-bold text-slate-700">{warehouse.Size} {warehouse['Size 2'] ? `/ ${warehouse['Size 2']}` : ''}</p>
-                </div>
-              </div>
+              )}
 
               <div className="flex gap-4 border-t border-slate-100 pt-4">
                 <div className="flex-1">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Style Number</label>
-                  <p className="text-sm font-mono font-bold text-slate-700">{warehouse['Style Number'] || 'N/A'}</p>
-                </div>
-                <div className="flex-1 text-center">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">SKU</label>
                   <p className="text-sm font-mono font-bold text-slate-700">{warehouse.SKU || 'N/A'}</p>
                 </div>
-                <div className="flex-1 text-right">
+                <div className="flex-1 text-center">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">UPC</label>
                   <p className="text-sm font-mono font-bold text-slate-700">
                     {warehouse.UPC

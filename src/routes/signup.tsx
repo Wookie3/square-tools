@@ -34,7 +34,7 @@ function Signup() {
             } else {
                 setSuccess(true)
                 setTimeout(() => {
-                    router.navigate({ to: '/login' })
+                    router.navigate({ to: '/login', search: { redirect: '/signup' } })
                 }, 2000)
             }
         } catch (err) {
@@ -46,7 +46,15 @@ function Signup() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 retro-mode">
+        <div className="min-h-screen flex items-center justify-center p-4 retro-mode relative">
+            {/* Back Home Button */}
+            <Link
+                to="/"
+                className="absolute top-8 left-8 flex items-center gap-2 px-4 py-2 bg-white border-2 border-[var(--ink-black)] shadow-[3px_3px_0px_var(--ink-black)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_var(--ink-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-bold text-sm uppercase tracking-wider"
+            >
+                ← Back Home
+            </Link>
+
             <Card className="w-full max-w-md border-4 border-[var(--sign-blue)] shadow-[8px_8px_0px_var(--sign-blue)]">
                 <CardHeader className="text-center border-b-4 border-[var(--sign-blue)] bg-[var(--sign-blue)] text-black">
                     <CardTitle className="text-4xl uppercase tracking-widest">New Member</CardTitle>
@@ -95,7 +103,7 @@ function Signup() {
 
                             <div className="text-center mt-4">
                                 <span className="text-[var(--ink-black)]/60 font-mono text-sm">Already have an account? </span>
-                                <Link to="/login" className="text-[var(--sign-red)] font-bold hover:underline decoration-2">
+                                <Link to="/login" search={{ redirect: '/signup' }} className="text-[var(--sign-red)] font-bold hover:underline decoration-2">
                                     SIGN IN
                                 </Link>
                             </div>

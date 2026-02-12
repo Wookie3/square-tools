@@ -7,8 +7,9 @@ import Header from '@/components/tracking/Header'
 
 export const Route = createFileRoute('/tracking/')({
   beforeLoad: async () => {
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+
+    if (sessionError || !session) {
       throw redirect({
         to: '/login',
         search: {
@@ -16,7 +17,19 @@ export const Route = createFileRoute('/tracking/')({
         }
       })
     }
-    return { userId: session.user.id }
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+    if (userError || !user) {
+      throw redirect({
+        to: '/login',
+        search: {
+          redirect: '/tracking'
+        }
+      })
+    }
+
+    return { userId: session.user.id, email: user.email }
   },
   component: TrackingPage,
   loader: ({ context }) => getTrackedShipments({ data: context.userId }),

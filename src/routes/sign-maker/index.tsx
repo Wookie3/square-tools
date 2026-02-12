@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useState } from 'react'
-import { supabaseAdmin as supabase } from '@/lib/supabase-server'
+import { supabase } from '@/lib/supabase'
 import { InventoryItem } from '@/types/inventory.types'
 import SKUSearch from '@/components/sign-maker/SKUSearch'
 import LabelPreview from '@/components/sign-maker/LabelPreview'

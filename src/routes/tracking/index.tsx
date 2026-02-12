@@ -2,7 +2,7 @@ import { createFileRoute, useRouter, redirect } from '@tanstack/react-router'
 import { useState } from 'react'
 import { addShipment, getTrackedShipments, refreshShipment } from '@/server/tracking'
 import { Loader2, RefreshCw, Plus, Package } from 'lucide-react'
-import { supabaseAdmin as supabase } from '@/lib/supabase-server'
+import { supabase } from '@/lib/supabase'
 import Header from '@/components/tracking/Header'
 
 export const Route = createFileRoute('/tracking/')({

@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { supabaseAdmin as supabase } from '@/lib/supabase-server'
 import { upcSchema } from '@/lib/validation'
 import { Package, MapPin, ExternalLink, Search, ArrowLeft, RefreshCw } from 'lucide-react'
 import { z } from 'zod'
@@ -11,6 +10,7 @@ const getWarehouseDataByUPC = createServerFn({
 })
   .inputValidator((data: unknown) => z.object({ upc: z.coerce.string() }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin: supabase } = await import('@/lib/supabase-server')
     const input = data
     try {
       const validatedUpc = upcSchema.parse(input.upc)
@@ -66,6 +66,7 @@ const getWarehouseDataBySKU = createServerFn({
 
 export const Route = createFileRoute('/scan/product/$sku')({
   loader: async ({ params: { sku } }) => {
+    const { supabaseAdmin: supabase } = await import('@/lib/supabase-server')
     const isUPC = /^[0-9]{11,13}$/.test(sku)
     const isStyleNumber = /[a-zA-Z]/.test(sku) // Contains letters
 

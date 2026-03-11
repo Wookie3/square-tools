@@ -9,6 +9,13 @@ export const Route = createFileRoute('/scan/')({
   component: Home
 })
 
+/**
+ * Render the scan home screen with a live scanner, manual SKU/style search forms, and authentication-aware controls.
+ *
+ * The component maintains Supabase authentication state, updates the UI based on session presence (shows login/logout and a style-number search only when authenticated), and provides handlers to navigate to the product scan route for SKU or style-number searches and to sign out.
+ *
+ * @returns The JSX element for the scan page containing the live Scanner, manual entry forms, and footer status.
+ */
 function Home() {
   const [sku, setSku] = useState('')
   const [styleNumber, setStyleNumber] = useState('')

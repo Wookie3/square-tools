@@ -22,19 +22,19 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-marks-gray-bg p-6 md:p-12 flex flex-col items-center">
+    <div className="min-h-screen bg-[#0a1628] p-6 md:p-12 flex flex-col items-center">
       {/* App Branding */}
       <header className="mb-12 text-center relative w-full max-w-md">
-        <Link to="/" className="absolute left-0 top-2 text-slate-400 hover:text-slate-600">
+        <Link to="/" className="absolute left-0 top-2 text-slate-400 hover:text-slate-200">
             <ArrowLeft />
         </Link>
         <div className="inline-flex items-center justify-center w-16 h-16 bg-marks-navy rounded-2xl mb-4 shadow-lg shadow-blue-900/20">
           <Package className="w-10 h-10 text-white" />
         </div>
-        <h1 className="text-4xl font-black text-slate-900 tracking-tighter mb-2">
-          Square <span className="text-marks-orange underline decoration-slate-200 underline-offset-8">Scan</span>
+        <h1 className="text-4xl font-black text-white tracking-tighter mb-2">
+          Square <span className="text-marks-orange underline decoration-slate-800 underline-offset-8">Scan</span>
         </h1>
-        <p className="text-slate-500 font-medium">Inventory & Price Check</p>
+        <p className="text-slate-400 font-medium">Inventory & Price Check</p>
       </header>
 
       <div className="w-full max-w-md space-y-8">
@@ -53,10 +53,10 @@ function Home() {
         {/* Divider */}
         <div className="relative py-4">
           <div className="absolute inset-0 flex items-center" aria-hidden="true">
-            <div className="w-full border-t border-slate-200"></div>
+            <div className="w-full border-t border-slate-800"></div>
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="px-4 bg-marks-gray-bg text-slate-400 font-black uppercase tracking-widest">Manual Entry Fallback</span>
+            <span className="px-4 bg-[#0a1628] text-slate-400 font-black uppercase tracking-widest">Manual Entry Fallback</span>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ function Home() {
 
         {/* Bottom Status */}
         <footer className="pt-8 text-center">
-          <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
             System V1.0.5 • Warehouse Connected
           </p>
         </footer>

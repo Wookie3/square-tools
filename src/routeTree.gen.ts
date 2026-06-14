@@ -64,9 +64,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/api/cron': typeof ApiCronRoute
-  '/scan': typeof ScanIndexRoute
-  '/sign-maker': typeof SignMakerIndexRoute
-  '/tracking': typeof TrackingIndexRoute
+  '/scan/': typeof ScanIndexRoute
+  '/sign-maker/': typeof SignMakerIndexRoute
+  '/tracking/': typeof TrackingIndexRoute
   '/scan/product/$sku': typeof ScanProductSkuRoute
 }
 export interface FileRoutesByTo {
@@ -97,9 +97,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/api/cron'
-    | '/scan'
-    | '/sign-maker'
-    | '/tracking'
+    | '/scan/'
+    | '/sign-maker/'
+    | '/tracking/'
     | '/scan/product/$sku'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -160,21 +160,21 @@ declare module '@tanstack/react-router' {
     '/tracking/': {
       id: '/tracking/'
       path: '/tracking'
-      fullPath: '/tracking'
+      fullPath: '/tracking/'
       preLoaderRoute: typeof TrackingIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-maker/': {
       id: '/sign-maker/'
       path: '/sign-maker'
-      fullPath: '/sign-maker'
+      fullPath: '/sign-maker/'
       preLoaderRoute: typeof SignMakerIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scan/': {
       id: '/scan/'
       path: '/scan'
-      fullPath: '/scan'
+      fullPath: '/scan/'
       preLoaderRoute: typeof ScanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }

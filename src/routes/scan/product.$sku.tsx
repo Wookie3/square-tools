@@ -92,7 +92,7 @@ function ProductView() {
 
   if (!warehouse) {
     return (
-      <div className="min-h-screen bg-marks-gray-bg flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-[#0a1628] flex flex-col items-center justify-center p-6 text-center">
         <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full border border-slate-200">
           <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Search className="w-10 h-10 text-slate-400" />
@@ -125,20 +125,20 @@ function ProductView() {
   }
 
   return (
-    <div className="min-h-screen bg-marks-gray-bg">
+    <div className="min-h-screen bg-[#0a1628]">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
+      <header className="bg-[#0a1628]/85 backdrop-blur-md border-b border-slate-800 sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/scan" className="text-slate-500 hover:text-slate-800 transition-colors">
+          <Link to="/scan" className="text-slate-400 hover:text-white transition-colors">
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <div className="text-center">
             <h1 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Product Details</h1>
-            <p className="text-sm font-mono font-bold text-slate-700">{sku}</p>
+            <p className="text-sm font-mono font-bold text-white">{sku}</p>
           </div>
           <button
             onClick={() => window.location.reload()}
-            className="text-slate-500 hover:text-marks-orange transition-colors"
+            className="text-slate-400 hover:text-marks-orange transition-colors"
           >
             <RefreshCw className="w-5 h-5" />
           </button>

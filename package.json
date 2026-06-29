@@ -50,7 +50,10 @@
     "typescript": "^5.7.2",
     "vite": "^7.3.5",
     "vitest": "^3.2.6",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.1.0",
+    "form-data": ">=4.0.6",
+    "dompurify": ">=3.4.11",
+    "launch-editor": ">=2.14.1"
   },
   "overrides": {
     "vite": "^7.3.5",
@@ -70,7 +73,7 @@
     "node-forge": "^1.4.0",
     "js-yaml": "^3.14.2",
     "picomatch": "^4.0.4",
-    "dompurify": "^3.4.10",
+    "dompurify": ">=3.4.11",
     "esbuild": "^0.28.1",
     "brace-expansion": "^2.1.1",
     "@isaacs/brace-expansion": "^5.0.1",
